@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.mapper.TblUserMapper"><!--与mapper绑定-->
+ 	<!--前台用户登录-->
+	<select id="clientLogin"   resultType="com.web.enity.TblUser">
+		select * from tbluser where userid = #{userid} and upass = #{upass} and ustate = '2'
+	</select>
+
+	<!--后台用户登录-->
+	<select id="backLogin"   resultType="com.web.enity.TblAdmin">
+		select * from tbladmin where aid = #{aid} and apass = #{apass}
+	</select>
+
+	<!--账号重复验证-->
+	<select id="checkUserid"   resultType="com.web.enity.TblUser">
+		select * from tbluser where userid = #{userid}
+	</select>
+
+	<!--注册-->
+	<insert id="reg" parameterType="com.web.enity.TblUser">
+		insert into tbluser
+		(userid , upass , uname , uage , usex , uphone  ,uregdate , uheader )
+		values
+		(#{user.userid} , #{user.upass} ,#{user.uname} ,#{user.uage} ,#{user.usex}  ,#{user.uphone}  ,#{user.uregdate} , #{user.uheader})
+	</insert>
+
+	<!--用户列表-->
+	<select id="findAllUser" resultType="com.web.enity.TblUser">
+		select * from tbluser
+		<where>
+			ustate = 2
+			<if test= "beginDate != null">
+				uregdate &gt;=  #{beginDate}
+			</if>
+			<if test= "endDate != null">
+				uregdate &lt;=  #{endDate}
+			</if>
+			<if test= "userid != null">
+				userid like  #{userid}
+			</if>
+		</where>
+		limit #{page} , #{limit}
+	</select>
+
+	<!--用户列表条数-->
+	<select id="findCount" resultType="java.lang.Integer">
+		select count(*) from tbluser
+		<where>
+			ustate = 2
+			<if test= "beginDate != null">
+				uregdate &gt;=  #{beginDate}
+			</if>
+			<if test= "endDate != null">
+				uregdate &lt;=  #{endDate}
+			</if>
+			<if test= "userid != null">
+				userid like  #{userid}
+			</if>
+		</where>
+	</select>
+
+
+
+</mapper>
+	
