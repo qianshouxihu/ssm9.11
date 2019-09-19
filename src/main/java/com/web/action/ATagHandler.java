@@ -7,6 +7,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/a")
 public class ATagHandler {
+    //测试github是否能识别修改
+    public void testGitHub()
+    {
+
+    }
+
+
     @RequestMapping("/backLogin.action")
     public String toBackLogin(){
         return "backLogin";
